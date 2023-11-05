@@ -1,0 +1,19 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+import java.awt.Image;
+import javax.swing.ImageIcon;
+
+public class ImageUtils {
+   public ImageUtils() {
+   }
+
+   public static ImageIcon createResizedImageIcon(String imagePath, int width, int height) {
+      try {
+         ImageIcon originalIcon = new ImageIcon(imagePath);
+         Image image = originalIcon.getImage().getScaledInstance(width, height, 4);
+         return new ImageIcon(image);
+      } catch (Exception var5) {
+         var5.printStackTrace();
+         return null;
+      }
+   }
+}
