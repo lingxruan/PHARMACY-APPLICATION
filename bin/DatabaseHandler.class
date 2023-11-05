@@ -1,0 +1,114 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+import java.awt.Component;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
+public class DatabaseHandler {
+   private Connection connection;
+
+   public DatabaseHandler() {
+      String url = "jdbc:mysql://localhost/pharma?serverTimezone=UTC";
+      String username = "root";
+      String password = "";
+
+      try {
+         Class.forName("com.mysql.cj.jdbc.Driver");
+         this.connection = DriverManager.getConnection(url, username, password);
+      } catch (ClassNotFoundException var5) {
+         var5.printStackTrace();
+      } catch (SQLException var6) {
+         var6.printStackTrace();
+      }
+
+   }
+
+   public boolean login(String username, String password) {
+      String query = "SELECT * FROM users WHERE username = ? AND password = ?";
+
+      try {
+         PreparedStatement preparedStatement = this.connection.prepareStatement(query);
+         preparedStatement.setString(1, username);
+         preparedStatement.setString(2, password);
+         ResultSet resultSet = preparedStatement.executeQuery();
+         return resultSet.next();
+      } catch (SQLException var6) {
+         var6.printStackTrace();
+         return false;
+      }
+   }
+
+   public boolean isUsernameTaken(String username) {
+      String query = "SELECT COUNT(*) FROM users WHERE username = ?";
+
+      try {
+         PreparedStatement preparedStatement = this.connection.prepareStatement(query);
+         preparedStatement.setString(1, username);
+         ResultSet resultSet = preparedStatement.executeQuery();
+         return resultSet.getInt(1) > 0;
+      } catch (SQLException var5) {
+         var5.printStackTrace();
+         return false;
+      }
+   }
+
+   public void registerUser(String username, String firstName, String lastName, String gender, String address, String email, String password) {
+      if (this.isUsernameTaken(username)) {
+         JOptionPane.showMessageDialog((Component)null, "Username is already taken. Please choose another.");
+      } else {
+         String query = "INSERT INTO users(username, first_name, last_name, gender, address, email, password) VALUES(?, ?, ?, ?, ?, ?, ?)";
+
+         try {
+            PreparedStatement preparedStatement = this.connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, firstName);
+            preparedStatement.setString(3, lastName);
+            preparedStatement.setString(4, gender);
+            preparedStatement.setString(5, address);
+            preparedStatement.setString(6, email);
+            preparedStatement.setString(7, password);
+            preparedStatement.executeUpdate();
+            JOptionPane.showMessageDialog((Component)null, "Registration successful");
+         } catch (SQLException var10) {
+            var10.printStackTrace();
+         }
+
+      }
+   }
+
+   public String getMedicineInfo(String medicineName) {
+      String query = "SELECT * FROM medicines WHERE name = ?";
+
+      try {
+         PreparedStatement preparedStatement = this.connection.prepareStatement(query);
+         preparedStatement.setString(1, medicineName);
+         ResultSet resultSet = preparedStatement.executeQuery();
+         if (resultSet.next()) {
+            String dose = resultSet.getString("dose");
+            String sideEffects = resultSet.getString("side_effects");
+            String symptoms = resultSet.getString("symptoms");
+            String usageGuidelines = resultSet.getString("usage_guidelines");
+            return "Medicine Name: " + medicineName + "\nDose: " + dose + "\nSide Effects: " + sideEffects + "\nSymptoms: " + symptoms + "\nUsage Guidelines: " + usageGuidelines;
+         } else {
+            return "Medicine not found.";
+         }
+      } catch (SQLException var9) {
+         var9.printStackTrace();
+         return "Error fetching medicine information.";
+      }
+   }
+
+   public void closeConnection() {
+      try {
+         if (this.connection != null) {
+            this.connection.close();
+         }
+      } catch (SQLException var2) {
+         var2.printStackTrace();
+      }
+
+   }
+}
