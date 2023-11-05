@@ -1,0 +1,60 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+import java.awt.Component;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+public class AccountSettings {
+   public AccountSettings() {
+   }
+
+   public static void showAccountSettingsDialog() {
+      JPanel accountSettingsPanel = new JPanel();
+      accountSettingsPanel.setLayout(new BoxLayout(accountSettingsPanel, 1));
+      JTextField usernameField = new JTextField(20);
+      JTextField firstNameField = new JTextField(20);
+      JTextField lastNameField = new JTextField(20);
+      JTextField genderField = new JTextField(20);
+      JTextField addressField = new JTextField(20);
+      JTextField emailField = new JTextField(20);
+      JPasswordField passwordField = new JPasswordField(20);
+      accountSettingsPanel.add(new JLabel("Change Username:"));
+      accountSettingsPanel.add(usernameField);
+      accountSettingsPanel.add(new JLabel("Change First Name:"));
+      accountSettingsPanel.add(emailField);
+      accountSettingsPanel.add(new JLabel("Change Last Name:"));
+      accountSettingsPanel.add(firstNameField);
+      accountSettingsPanel.add(new JLabel("Change Gender:"));
+      accountSettingsPanel.add(lastNameField);
+      accountSettingsPanel.add(new JLabel("Change Address:"));
+      accountSettingsPanel.add(addressField);
+      accountSettingsPanel.add(new JLabel("Change Email:"));
+      accountSettingsPanel.add(genderField);
+      accountSettingsPanel.add(new JLabel("Change Password:"));
+      accountSettingsPanel.add(passwordField);
+      int result = JOptionPane.showConfirmDialog((Component)null, accountSettingsPanel, "Account Settings", 2);
+      if (result == 0) {
+         String newUsername = usernameField.getText();
+         String newFirstName = firstNameField.getText();
+         String newLastName = lastNameField.getText();
+         String newGender = genderField.getText();
+         String newAddress = addressField.getText();
+         String newEmail = emailField.getText();
+         String newPassword = new String(passwordField.getPassword());
+         boolean updateSuccessful = updateUserInfo(newUsername, newFirstName, newLastName, newGender, newAddress, newEmail, newPassword);
+         if (updateSuccessful) {
+            JOptionPane.showMessageDialog((Component)null, "Successfully changed account.");
+         } else {
+            JOptionPane.showMessageDialog((Component)null, "Failed to update account. Please try again.", "Error", 0);
+         }
+      }
+
+   }
+
+   private static boolean updateUserInfo(String newUsername, String newFirstName, String newLastName, String newGender, String newAddress, String newEmail, String newPassword) {
+      return true;
+   }
+}
