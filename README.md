@@ -2,17 +2,6 @@
 
 Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
 
-## Folder Structure
+Before to run the code in Visual Studio Code please make sure to delete the file inside the lib folder then download the MySql Connector java and put the MySql Connect inside the lib folder, then create a Database name which is Pharma in xampp but you can create your desired Database name but change the Database name in the DatabaseHandler class name with your Database Name you create.
 
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+MySql Connecto link: https://dev.mysql.com/downloads/file/?id=522774
